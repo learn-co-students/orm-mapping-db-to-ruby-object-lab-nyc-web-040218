@@ -11,7 +11,6 @@ class Student
 
   def self.new_from_db(row) #this is an array [1,pat,12]
     student = Student.new(row[0], row[1], row[2])
-    student.save
     student
   end
 
@@ -67,7 +66,7 @@ class Student
       SQL
 
     a = DB[:conn].execute(sql).flatten
-    student = Student.new(a[0], a[1], a[2])
+    Student.new_from_db(a)
   end
 
   def self.all_students_in_grade_X(grade)
