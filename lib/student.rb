@@ -1,3 +1,5 @@
+require "pry"
+
 class Student
   attr_accessor :id, :name, :grade
 
@@ -92,7 +94,7 @@ class Student
       LIMIT ?
     SQL
  
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql, x)
   end
 
   def self.first_student_in_grade_10
@@ -103,7 +105,9 @@ class Student
       LIMIT 1
     SQL
  
-    DB[:conn].execute(sql)
+    sql_result = DB[:conn].execute(sql) 
+    self.new_from_db(sql_result[0]) # <- remove outer brackets
+    # binding.pry
   end
 
   def self.all_students_in_grade_X(x)
@@ -113,7 +117,7 @@ class Student
       WHERE grade = ?
     SQL
  
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql, x)
   end
   
 end
